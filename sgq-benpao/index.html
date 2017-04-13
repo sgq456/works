@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>奔跑岁月</title>
+    <style>
+        body,html{
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+        canvas{
+            background-color: #000;
+            background-image: url("img/cj.jpg");
+            background-repeat: repeat-x;
+            background-position: left center;
+            background-size: auto 80%;
+        }
+
+        .ban,.start{
+            position: fixed;
+            top:5%;
+            left: 0;
+            width:169px;
+            height:136px;
+            background-size: contain;
+        }
+        .ban{
+            background-image: url("img/ban.png");
+            background-repeat: no-repeat;
+            display: none;
+            -webkit-transition: all 1s ;
+            -moz-transition: all 1s ;
+            -ms-transition: all 1s;
+            -o-transition: all 1s;
+            transition: all 1s ;
+            transform: translate(0,0);
+        }
+        .start{
+            background-image: url("img/start.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center bottom;
+        }
+        .ban span{
+            position: absolute;
+            right:65px;
+            font-size: 16px;
+            line-height: 23px;
+
+        }
+        .ban span:nth-child(1){
+            color: #10A7FE;
+            top:59px;
+        }
+        .ban span:nth-child(2){
+            color: #F8E61C;
+            top:82px;
+        }
+        .ban span:nth-child(3){
+            color: #F91419;
+            top:108px;
+        }
+        .start .men{
+            position: absolute;
+            bottom:10%;
+            left: 10%;
+            width: 30%;
+            cursor: pointer;
+            transition: all 0.5s;
+        }
+        .start .men:hover{
+            transform:  scale(1.5,1.5);
+        }
+        .start .women:hover{
+            transform: rotateY(180deg) scale(1.5,1.5);
+        }
+        .start .women{
+            position: absolute;
+            bottom:10%;
+            right: 10%;
+            width: 30%;
+            cursor: pointer;
+            transform: rotateY(180deg);
+            transition: all 0.5s;
+        }
+        .bangzhuxinxi{
+            position: absolute;
+            top:100%;
+            left: 0;
+            width: 100%;
+            text-align: left;
+            background: rgba(0,0,0,0.7);
+            color: #fff;
+            text-align: center;
+            border-radius: 10px;
+        }
+        .bangzhuxinxi p{
+            line-height: 20px;
+        }
+        .ban.visiable{
+            transform: translate(-85%,0);
+        }
+        .bangzhuxinxi span:last-of-type{
+            color: #ff891f;
+        }
+        .beforegame{
+            background: #c1ec62;
+            position: absolute;
+            top:0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1000;
+            text-align: center;
+        }
+        .beforegame p:first-child{
+            margin-top: 150px;
+            font-size: 20px;
+            color: #9222ff;
+        }
+        @keyframes scale {
+            0%{transform:scale(1)}
+            25%{transform:scale(1.3)}
+            50%{transform:scale(1.5)}
+            70%{transform:scale(1.3)}
+            100%{transform:scale(1)}
+        }
+        .beforegame p:first-child span{
+            display: inline-block;
+            margin: 0 5px;
+        }
+        .beforegame p:first-child span:nth-child(1){
+            animation: scale 0.5s   linear;
+        }
+        .beforegame p:first-child span:nth-child(2){
+            animation: scale 0.5s 0.1s   linear;
+        }
+        .beforegame p:first-child span:nth-child(3){
+            animation: scale 0.5s 0.2s   linear;
+        }
+        .beforegame p:first-child span:nth-child(4){
+            animation: scale 0.5s 0.3s   linear;
+        }
+        .beforegame p:first-child span:nth-child(5){
+            animation: scale 0.5s 0.4s   linear;
+        }
+        .beforegame p:first-child span:nth-child(6){
+            animation: scale 0.5s 0.5s   linear;
+        }
+        .beforegame p:first-child span:nth-child(7){
+            animation: scale 0.5s 0.6s  linear;
+        }
+        .beforegame p:first-child span:nth-child(8){
+            animation: scale 0.5s 0.7s linear;
+        }
+        .beforegame p:last-child{
+            position: absolute;
+            top:0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            font-size: 20px;
+            color: #000;
+            width: 200px;
+            height: 30px;
+        }
+        @keyframes wait {
+            0%{opacity:0}
+            30%{opacity:0}
+            60%{opacity:1}
+            100%{opacity: 1}
+        }
+        .beforegame p:last-child span:first-child{
+            content: ".";
+            font-size: 20px;
+            animation: wait 1.6s 0.4s linear alternate infinite;
+        }
+        .beforegame p:last-child span:nth-child(2){
+            font-size: 20px;
+            animation: wait 1.6s 0.8s linear alternate infinite;
+        }
+        .beforegame p:last-child span:last-child{
+            content: ".";
+            font-size: 20px;
+            animation: wait 1.6s 1.2s linear alternate infinite;
+        }
+        @media screen and (min-width: 1200px){
+            .beforegame p:first-child{
+                font-size: 40px;
+            }
+            .bangzhuxinxi span:last-of-type{
+                color: #fff;
+            }
+            .bangzhuxinxi span:first-of-type{
+                color: #ff891f;
+            }
+            .ban.visiable{
+                transform: translate(-99%,0);
+            }
+            /*PC端*/
+            .ban,.start{
+                position: fixed;
+                top:5%;
+                left:5%;
+                width: 339px;
+                height: 272px;
+
+            }
+            .ban span{
+                position: absolute;
+                right:130px;
+                font-size: 30px;
+                line-height: 46px;
+
+            }
+            .ban span:nth-child(1){
+                color: #10A7FE;
+                top:118px;
+            }
+            .ban span:nth-child(2){
+                color: #F8E61C;
+                top:163px;
+            }
+            .ban span:nth-child(3){
+                color: #F91419;
+                top:218px;
+            }
+        }
+    </style>
+    <script>
+        /*
+         getImageData此方法不允许操作非此域名外的图片资源，即使是子域也不行。
+         “用php把图片编码嵌入到html”
+         可以把图片弄成字符串的格式嵌入在网页内，那么外站的图片资源不就变成本地的了么
+         * <?php
+         $pic = 'http://avatar.csdn.net/7/5/0/1_molaifeng.jpg';
+         $arr = getimagesize($pic);
+         $pic = "data:{$arr['mime']};base64," .base64_encode(file_get_contents($pic));
+         ?>
+         <img src="<?php echo $pic ?>" />
+         * */
+        window.onload=function () {
+            var canvas=document.getElementsByTagName("canvas")[0];
+            var cobj=canvas.getContext("2d");
+            var body=document.getElementsByTagName("body")[0];
+            body.removeChild(document.getElementsByClassName("beforegame")[0]);
+            var runimg=document.getElementsByClassName("runimg");
+            var downimg=document.getElementsByClassName("downimg");
+            var jumpimg=document.getElementsByClassName("jumpimg");
+            var baoshiimg=document.getElementsByClassName("baoshi");
+            var hiderimg={"0":document.getElementsByClassName("hiderimg1"),"1":document.getElementsByClassName("hiderimg2"),"2":document.getElementsByClassName("hiderimg3"),"3":document.getElementsByClassName("hiderimg4"),"4":document.getElementsByClassName("hiderimg5"),"5":document.getElementsByClassName("hiderimg6")};
+            var clienW=document.documentElement.clientWidth;
+            var clienH=document.documentElement.clientHeight;
+            var best=document.querySelector('.ban span:nth-child(1)');
+            var fenshu=document.querySelector('.ban span:nth-child(2)');
+            var life=document.querySelector('.ban span:nth-child(3)');
+            var pao=document.querySelector('.pao');
+            var pao2=document.querySelector('.pao2');
+            var zhuang=document.querySelector('.zhuang');
+            var zhuang2=document.querySelector('.zhuang2');
+            var qitiao=document.querySelector('.qitiao');
+            var tiaoxia=document.querySelector('.tiaoxia');
+            var dunxia=document.querySelector('.dunxia');
+            var baoshi=document.querySelector('.baoshiv');
+            var mendie=document.querySelector('.mendie');
+            var womendie=document.querySelector('.womendie');
+            var menstr=document.querySelector('.menstr');
+            var womenstr=document.querySelector('.womenstr');
+            var qianv=document.querySelector('.qianv');
+            var jieshu=document.querySelector('.jieshu');
+            var start=document.querySelector('.start');
+            var bangzhuxinxi=document.querySelector('.bangzhuxinxi');
+            var men=document.querySelector('.start .men');
+            var women=document.querySelector('.start .women');
+            var ban=document.querySelector('.ban');
+            canvas.width=clienW;
+            canvas.height=clienH;
+            var game1=new game(canvas,cobj,runimg,downimg,jumpimg,hiderimg,clienW,clienH,body,best,fenshu,life,pao,zhuang,qitiao,tiaoxia,dunxia,mendie,jieshu,baoshiimg,baoshi);
+            game1.pao=pao;
+            game1.zhuang=zhuang;
+            game1.play(false);
+            qianv.play();
+
+            men.onclick=function () {
+                qianv.pause();
+                ban.style.display="block";
+                start.style.display="none";
+                bangzhuxinxi.style.display="none";
+                menstr.play();
+                game1.init();
+            };
+            ban.onclick=function () {
+                if(ban.className.match("visiable")){
+                    ban.className="ban";
+                }else{
+                    ban.className="ban visiable";
+                }
+            };
+            women.onclick=function () {
+                qianv.pause();
+                womenstr.play();
+                ban.style.display="block";
+                start.style.display="none";
+                bangzhuxinxi.style.display="none";
+                game1.pao=pao2;
+                game1.zhuang=zhuang2;
+                game1.qitiao=qitiao;
+                game1.tiaoxia=tiaoxia;
+                game1.mendie=womendie;
+                game1.person.runimg =document.getElementsByClassName("runimg2");
+                game1.person.downimg=document.getElementsByClassName("downimg2");
+                game1.person.jumpimg=document.getElementsByClassName("jumpimg2");
+                game1.init();
+            }
+        }
+
+    </script>
+</head>
+<body>
+<div class="beforegame">
+    <p><span>奔</span><span>跑</span><span>岁</span><span>月</span>，<span>无</span><span>题</span><span>人</span><span>生</span></p>
+    <p>游戏加载中<span>.</span><span>.</span><span>.</span></p>
+</div>
+<canvas></canvas>
+<img src="img/p11.png" alt="" class="runimg" style="visibility: hidden">
+<img src="img/p12.png" alt="" class="runimg" style="visibility: hidden">
+<!--<img src="img/p13.png" alt="" class="runimg" style="visibility: hidden">-->
+<img src="img/p14.png" alt="" class="runimg" style="visibility: hidden">
+<img src="img/p15.png" alt="" class="runimg" style="visibility: hidden">
+<!--<img src="img/p16.png" alt="" class="runimg" style="visibility: hidden">-->
+<img src="img/p17.png" alt="" class="runimg" style="visibility: hidden">
+<!--<img src="img/p18.png" alt="" class="runimg" style="visibility: hidden">-->
+<img src="img/p19.png" alt="" class="runimg" style="visibility: hidden">
+<!--<img src="img/p110.png" alt="" class="runimg" style="visibility: hidden">-->
+<img src="img/p111.png" alt="" class="runimg" style="visibility: hidden">
+<!--<img src="img/p112.png" alt="" class="runimg" style="visibility: hidden">-->
+<img src="img/p113.png" alt="" class="runimg" style="visibility: hidden">
+<!--<img src="img/p114.png" alt="" class="runimg" style="visibility: hidden">-->
+<img src="img/p115.png" alt="" class="runimg" style="visibility: hidden">
+<!--<img src="img/p116.png" alt="" class="runimg" style="visibility: hidden">-->
+<img src="img/p117.png" alt="" class="runimg" style="visibility: hidden">
+<!--<img src="img/p118.png" alt="" class="runimg" style="visibility: hidden">-->
+<img src="img/p119.png" alt="" class="runimg" style="visibility: hidden">
+<img src="img/p121.png" alt="" class="runimg" style="visibility: hidden">
+<!--<img src="img/p122.png" alt="" class="runimg" style="visibility: hidden">-->
+<img src="img/p123.png" alt="" class="runimg" style="visibility: hidden">
+<!--<img src="img/p124.png" alt="" class="runimg" style="visibility: hidden">-->
+<img src="img/p125.png" alt="" class="runimg" style="visibility: hidden">
+
+<img src="img/downp11.png" alt="" class="downimg" style="visibility: hidden">
+<img src="img/downp12.png" alt="" class="downimg" style="visibility: hidden">
+<img src="img/downp21.png" alt="" class="downimg2" style="visibility: hidden">
+<img src="img/downp22.png" alt="" class="downimg2" style="visibility: hidden">
+<img src="img/p119.png" alt="" class="jumpimg" style="visibility: hidden">
+<img src="img/p220.png" alt="" class="jumpimg2" style="visibility: hidden">
+<img src="img/g1.png" alt="" class="hiderimg1" style="visibility: hidden">
+<!--<img src="img/g2.png" alt="" class="hiderimg1" style="visibility: hidden">-->
+<img src="img/g3.png" alt="" class="hiderimg1" style="visibility: hidden">
+<!--<img src="img/g4.png" alt="" class="hiderimg1" style="visibility: hidden">-->
+<img src="img/g5.png" alt="" class="hiderimg1" style="visibility: hidden">
+<!--<img src="img/g6.png" alt="" class="hiderimg1" style="visibility: hidden">-->
+<img src="img/g7.png" alt="" class="hiderimg1" style="visibility: hidden">
+<img src="img/g8.png" alt="" class="hiderimg1" style="visibility: hidden">
+<img src="img/n1.png" alt="" class="hiderimg3" style="visibility: hidden">
+<img src="img/n2.png" alt="" class="hiderimg3" style="visibility: hidden">
+<!--<img src="img/n3.png" alt="" class="hiderimg3" style="visibility: hidden">-->
+<img src="img/n4.png" alt="" class="hiderimg3" style="visibility: hidden">
+<!--<img src="img/n5.png" alt="" class="hiderimg3" style="visibility: hidden">-->
+<img src="img/n6.png" alt="" class="hiderimg3" style="visibility: hidden">
+<img src="img/s1.png" alt="" class="hiderimg2" style="visibility: hidden">
+<img src="img/s2.png" alt="" class="hiderimg4" style="visibility: hidden">
+<img src="img/s3.png" alt="" class="hiderimg5" style="visibility: hidden">
+<img src="img/s4.png" alt="" class="hiderimg6" style="visibility: hidden">
+<img src="img/b1.png" alt="" class="baoshi" style="visibility: hidden">
+<img src="img/b2.png" alt="" class="baoshi" style="visibility: hidden">
+<img src="img/b3.png" alt="" class="baoshi" style="visibility: hidden">
+<img src="img/b4.png" alt="" class="baoshi" style="visibility: hidden">
+<img src="img/p21.png" alt="" class="runimg2" style="visibility: hidden">
+<!--<img src="img/p22.png" alt="" class="runimg2" style="visibility: hidden">-->
+<img src="img/p23.png" alt="" class="runimg2" style="visibility: hidden">
+<!--<img src="img/p24.png" alt="" class="runimg2" style="visibility: hidden">-->
+<img src="img/p25.png" alt="" class="runimg2" style="visibility: hidden">
+<img src="img/p26.png" alt="" class="runimg2" style="visibility: hidden">
+<!--<img src="img/p27.png" alt="" class="runimg2" style="visibility: hidden">-->
+<img src="img/p28.png" alt="" class="runimg2" style="visibility: hidden">
+<!--<img src="img/p29.png" alt="" class="runimg2" style="visibility: hidden">-->
+<img src="img/p210.png" alt="" class="runimg2" style="visibility: hidden">
+<!--<img src="img/p211.png" alt="" class="runimg2" style="visibility: hidden">-->
+<img src="img/p212.png" alt="" class="runimg2" style="visibility: hidden">
+<!--<img src="img/p213.png" alt="" class="runimg2" style="visibility: hidden">-->
+<img src="img/p214.png" alt="" class="runimg2" style="visibility: hidden">
+<!--<img src="img/p215.png" alt="" class="runimg2" style="visibility: hidden">-->
+<img src="img/p216.png" alt="" class="runimg2" style="visibility: hidden">
+<!--<img src="img/p217.png" alt="" class="runimg2" style="visibility: hidden">-->
+<img src="img/p218.png" alt="" class="runimg2" style="visibility: hidden">
+<!--<img src="img/p219.png" alt="" class="runimg2" style="visibility: hidden">-->
+<img src="img/p221.png" alt="" class="runimg2" style="visibility: hidden">
+<!--<img src="img/p222.png" alt="" class="runimg2" style="visibility: hidden">-->
+<img src="img/p223.png" alt="" class="runimg2" style="visibility: hidden">
+<!--<img src="img/p224.png" alt="" class="runimg2" style="visibility: hidden">-->
+<img src="img/p225.png" alt="" class="runimg2" style="visibility: hidden">
+<!--<img src="img/p226.png" alt="" class="runimg2" style="visibility: hidden">-->
+<img src="img/p227.png" alt="" class="runimg2" style="visibility: hidden">
+<div class="ban">
+    <span>0</span>
+    <span>0</span>
+    <span>0</span>
+</div>
+<div class="start">
+    <img class="men" src="img/p11.png" alt="">
+    <img class="women" src="img/p21.png" alt="">
+    <div class="bangzhuxinxi">
+        <h3>请选择角色（点击↑）</h3>
+        <p>跳跃：<span>空格</span> <span>（点击屏幕）</span></p>
+        <p>上移：<span>上键</span> <span>（上滑屏幕）</span></p>
+        <p>下移：<span>下键</span> <span>（下滑屏幕）</span></p>
+        <p>蹲下：<span>左键</span> <span>（左滑屏幕）</span></p>
+    </div>
+</div>
+<video src="vidio/menpao.wav" loop class="pao"></video>
+<video src="vidio/womenpao.wav" loop class="pao2"></video>
+<video src="vidio/mensahng.wav" class="zhuang"></video>
+<video src="vidio/womenshang.wav" class="zhuang2"></video>
+<video src="vidio/qitiao.wav" class="qitiao"></video>
+<video src="vidio/tiaoxia.wav" class="tiaoxia"></video>
+<video src="vidio/dunxia.wav" class="dunxia"></video>
+<video src="vidio/mendie.wav" class="mendie"></video>
+<video src="vidio/womendie.wav" class="womendie"></video>
+<video src="vidio/menstr.wav" class="menstr"></video>
+<video src="vidio/womenstr.wav" class="womenstr"></video>
+<video src="vidio/baoshi.wav" class="baoshiv"></video>
+<video src="vidio/qianv.mp3" class="qianv" loop></video>
+<video src="vidio/jieshu.mp3" class="jieshu" loop></video>
+
+</body>
+<script src="js/hitPix.js"></script>
+<script src="js/play.js"></script>
+<script src="js/touch.js"></script>
+</html>
